@@ -1,15 +1,22 @@
-console.log("app.js")
+let toDos = [];
 
-let toDos = []
-
-let url = "localhost:3000/toDos.json"
-
-
-const getTodos = () => {
-fetch(url)
-    .then(resp => resp.json())
-        .then((json) => todos.push(json))
+let filters = {
+    searchTerm: ""
 }
+
+getTodos()
+
+//let url = "localhost:3000/toDos.json"
+
+// toDos = fetchTodos()
+
+// console.log(toDos.data)
+
+// const getTodos = () => {
+// fetch(url)
+//     .then(resp => resp.json())
+//         .then((json) => todos.push(json))
+// }
 
 // toDos = [
 //     {
@@ -26,23 +33,25 @@ fetch(url)
 //         complete: false
 //     }]
 
-    renderList()
+    
 
     document.querySelector("#gen-form").addEventListener("click", (e) => {
+        console.log(e)
         e.target.style.visibility = "hidden"
         renderForm()
     })
 
+    document.querySelector('#searchTerm').addEventListener("input", (e) => {
+        filters.searchTerm = e.target.value
+        renderList(toDos, filters)
+    })
 
+    // submit 
 
+    // click 
 
-// const findTeam = (teamName) => {
-//     const team = teams.find((team) => {
-//         return team.name === teamName
-//     })  
+    // input 
+
+    // change 
+
     
-//     if(team) {
-//         console.log(team)
-//     }   
-// }
-

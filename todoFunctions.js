@@ -1,10 +1,21 @@
-console.log("func")
+const correctFetch = async () => {
+    const resp = await fetch("http://localhost:3000/todos")
+    if(resp.status === 200){
+        const json = await resp.json()
+        return json 
+    } else {
+        throw new Error("help")
+    }
+}
 
-//uuid
+
+const getTodos = async () => {
+    toDos = await correctFetch()
+    renderList(toDos.data, filters)
+}
 
 
-
-const generateList = (toDo) => {
+const generateItem = (toDo) => {
     const toDoDiv = document.createElement("div")
     const toDoSpan = document.createElement("span")
     const checkBox = document.createElement("input")
@@ -12,26 +23,21 @@ const generateList = (toDo) => {
     toDoDiv.id = "todo-wrapper"
 
     toDoSpan.id = "todo-data"
-    toDoSpan.innerText = toDo.text
+    toDoSpan.innerText = toDo.attributes.title
 
     checkBox.id = "todo-checked"
     checkBox.name = "done"
     checkBox.setAttribute("type", "checkbox")
-    checkBox.checked = toDo.complete
+    checkBox.checked = toDo.attributes.complete
 
     checkBox.addEventListener("change", (e) => {
         // update checkbox
     })
-
-    document.querySelector("#container").appendChild(toDoDiv).appendChild(toDoSpan).appendChild(checkBox)
+    document.querySelector("#container").append(toDoDiv, toDoSpan, checkBox)
 
 }
 
-const renderList = () => {
-    toDos.forEach((todo) => {
-        generateList(todo)
-    })
-}
+
 
 const genreateForm = () => {
     const form = document.createElement('form')
@@ -55,24 +61,7 @@ const genreateForm = () => {
 }
 
 
-const renderForm = () => {
-    const form = genreateForm()
-    document.body.appendChild(form)
 
-     form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        e.target.style.visibility = "hidden"
-        
-        newTodo = {
-            text: e.target.elements.formInput.value, 
-            complete: false 
-        }
-
-        // persistance
-        saveToDo(newTodo) 
-        form.remove()
-    })
-}
 
 
 const saveToDo = (todo = null) => {
